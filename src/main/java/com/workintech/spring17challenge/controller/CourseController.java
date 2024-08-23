@@ -53,22 +53,22 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     public Map<Course, Integer> postCourse(@RequestBody Course course){
         int totalGpa = 0;
-        Map<Course,Integer> workintech = new HashMap<>();
+        Map<Course,Integer> workintech1 = new HashMap<>();
         if(courses.values().stream().anyMatch(o->o.getName().equals(course.getName())) && (course.getCredit() < 0 && course.getCredit() > 4)){
             throw new ApiException("Girilen kurs ismi mevcut veya kredi değeri 0 ile 4 aralığında değil!", HttpStatus.NOT_FOUND);
         }
         if (course.getCredit() <= 2){
             totalGpa = course.getGrade().getCoefficient()*course.getCredit()* lowCourseGpa.getGpa();
-            workintech.put(course,totalGpa);
+            workintech1.put(course,totalGpa);
         } else if (course.getCredit() == 3){
             totalGpa = course.getGrade().getCoefficient()*course.getCredit()* mediumCourseGpa.getGpa();
-            workintech.put(course,totalGpa);
+            workintech1.put(course,totalGpa);
         } else {
             totalGpa = course.getGrade().getCoefficient()*course.getCredit()* highCourseGpa.getGpa();
-            workintech.put(course,totalGpa);
+            workintech1.put(course,totalGpa);
         }
         courses.put(course.getId(), course);
-        return workintech;
+        return workintech1;
     }
 
     @PutMapping("/{id}")
